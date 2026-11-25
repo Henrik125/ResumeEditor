@@ -10,9 +10,9 @@
           </div>
         </template>
         <!--     基础设置     -->
-        <div style="width: 100%;text-align: center;height: calc(100vh - 60px);overflow-y: scroll">
+        <div class="resume-settings-grid">
           <!--     颜色配置       -->
-          <div style="margin-top: 5px">
+          <section class="settings-card">
             <h3 style="text-align: left">颜色配置</h3>
             <el-form>
               <el-form-item v-for="(col,idx) in colors" :key="idx" :label="col.title">
@@ -23,25 +23,25 @@
                   </span>
               </el-form-item>
             </el-form>
-          </div>
+          </section>
           <!--其他文字配置-->
-          <div v-if="titles">
+          <section v-if="titles" class="settings-card">
             <h3 style="text-align: left">其他文字配置</h3>
             <el-form>
               <el-form-item v-for="(txt,idx) in titles" :key="idx" :label="txt.title">
                 <el-input style="width: 247px" v-model="txt.text"/>
               </el-form-item>
             </el-form>
-          </div>
+          </section>
           <!--     模块管理       -->
-          <div style="margin-top: 5px">
+          <section class="settings-card">
             <h3 style="text-align: left">模块管理</h3>
             <!--添加自定义模块-->
             <div style="width: 100%;margin-bottom: 15px">
-              <el-button style="width: 310px;" type="success" @click="ModuleDialog = true">添加自定义模块</el-button>
+              <el-button style="width: 100%;" type="success" @click="ModuleDialog = true">添加自定义模块</el-button>
             </div>
             <!--模块列表-->
-            <el-table :data="ModuleList" style="width: 90%;margin-bottom: 100px">
+            <el-table :data="ModuleList" style="width: 100%;">
               <el-table-column label="模块名称" prop="moduleName">
               </el-table-column>
               <el-table-column label="是否显示" prop="isShow" width="80px">
@@ -57,7 +57,7 @@
                 </template>
               </el-table-column>
             </el-table>
-          </div>
+          </section>
         </div>
       </el-tab-pane>
       <!--    基础信息      -->
@@ -70,7 +70,7 @@
         </template>
         <div style="width: 100%">
           <!--基本信息-->
-          <el-form style="height: calc(100vh - 60px);overflow-y: scroll">
+          <el-form class="base-info-form" style="height: 100%;overflow-y: auto">
             <h3>基本信息设置</h3>
             <el-form-item label="你 的 姓 名:">
               <el-input v-model="userinfo.name"></el-input>
@@ -122,7 +122,7 @@
               </div>
             </el-form-item>
 
-            <div style="width: 100%;margin-bottom: 15px">
+            <div class="info-add-action" style="width: 100%;margin-bottom: 15px">
               <el-button style="width: 310px;" type="success" @click="InfoDialog = true">添加自定义信息</el-button>
             </div>
 
@@ -163,15 +163,17 @@
             <span class="title-item">技能特长</span>
           </div>
         </template>
-        <div class="EditBack">
-          <MdEditor style="height:600px" :editor-id="'skillAnd1'" v-model="skillInfo.text" :preview="false"
-                    :toolbars="tooBars">
-            <template #defToolbars>
-              <EmojiSion/>
-            </template>
-          </MdEditor>
+        <div class="EditBack skill-settings-layout">
+          <div class="skill-description-panel">
+            <MdEditor :style="{height: 'min(420px, calc(var(--editor-panel-height) - 112px))'}"
+                      :editor-id="'skillAnd1'" v-model="skillInfo.text" :preview="false" :toolbars="tooBars">
+              <template #defToolbars>
+                <EmojiSion/>
+              </template>
+            </MdEditor>
+          </div>
           <!--      技能管理      -->
-          <div style="margin-bottom: 10px">
+          <div class="skill-settings-card" style="margin-bottom: 10px">
             <h3>技能管理</h3>
 
             <div>
@@ -209,7 +211,7 @@
             </div>
           </div>
           <!--     爱好管理       -->
-          <div style="margin-bottom: 100px">
+          <div class="skill-settings-card">
             <h3>爱好管理</h3>
 
             <div>
@@ -256,21 +258,21 @@
           </div>
         </template>
         <!--总模块内容-->
-        <div class="EditBack">
+        <div class="EditBack module-editor-layout">
           <!--模块头部-->
-          <div style="position: relative">
-            <h3 style="text-align: left">{{ module.moduleName }}</h3>
-            <span style="position: absolute;left: 85px;top: -3px;">
-              <el-switch style="width: 10px" v-model="module.isAdd" @change="isAddModule(module)"/>
-            </span>
-            <span v-if="!module.isTem"
-                  style="position: absolute;left: 290px;top: 2px;cursor: pointer" @click="delModel(module.moduleName)">
-              <delete theme="two-tone" size="22" :fill="['#ee194b' ,'#ffffff']"/>
-            </span>
+          <div class="module-editor-header">
+            <h3>{{ module.moduleName }}</h3>
+            <div class="module-editor-actions">
+              <span class="font1">显示</span>
+              <el-switch v-model="module.isAdd" size="small" @change="isAddModule(module)"/>
+              <span v-if="!module.isTem" class="module-delete" @click="delModel(module.moduleName)">
+                <delete theme="two-tone" size="22" :fill="['#ee194b' ,'#ffffff']"/>
+              </span>
+            </div>
           </div>
           <!--模块内容-->
           <div v-if="module.isAdd">
-            <div v-for="(item,index) in module.moduleContent.content" :key="index" style="margin-bottom: 25px">
+            <div v-for="(item,index) in module.moduleContent.content" :key="index" class="module-item-editor">
               <!--项目标题头部-->
               <div style="display: flex;justify-content: flex-start">
                 <!--项目名称-->
@@ -289,7 +291,7 @@
                 </span>
               </div>
               <!--项目基本信息-->
-              <div>
+              <div class="module-fields-grid">
                 <!--项目名称-->
                 <div v-if="module.text1" style="margin-bottom: 15px">
                   <span class="font1">{{ module.text1 }}&nbsp;:&nbsp;&nbsp;</span>
@@ -319,7 +321,7 @@
                 </div>
               </div>
               <!--项目详细内容-->
-              <MdEditor :style="{height:module.AllowChild===true?'400px':'500px'}"
+              <MdEditor :style="{height: 'min(420px, calc(var(--editor-panel-height) - 112px))'}"
                         :editor-id="item.editor_id"
                         v-model="item.content" :preview="false" :toolbars="tooBars">
                 <template #defToolbars>
@@ -922,25 +924,234 @@ export default defineComponent({
 
 <style scoped>
 .ResumeEditor {
-  background: #b78080;
+  --editor-panel-height: calc(100vh - 60px);
+  z-index: 5;
+  box-sizing: border-box;
+  background: #ffffff;
   height: calc(100vh - 60px);
-  width: 460px;
+  width: var(--editor-panel-width, 506px);
   position: absolute;
   right: 0;
   top: 0;
+  border-left: 1px solid #e2e8f0;
+  box-shadow: -12px 0 32px rgba(15, 23, 42, 0.06);
+}
+
+.ResumeEditor :deep(.Edit-table) {
+  height: 100%;
+  background: #ffffff;
+  border: 0;
+  box-shadow: none;
+}
+
+.ResumeEditor :deep(.el-tabs--border-card > .el-tabs__header) {
+  background: #f6f8fc;
+  border-right: 1px solid #e2e8f0;
+  border-bottom: 0;
+}
+
+.ResumeEditor :deep(.el-tabs--border-card > .el-tabs__header .el-tabs__item) {
+  color: #64748b;
+  border: 0;
+  border-left: 3px solid transparent;
+}
+
+.ResumeEditor :deep(.el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active) {
+  color: #2563eb;
+  font-weight: 700;
+  background: #ffffff;
+  border-left-color: #2563eb;
+}
+
+.ResumeEditor :deep(.Edit-table .el-tabs__content) {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.ResumeEditor :deep(.Edit-table .el-tab-pane) {
+  height: 100%;
+  min-height: 0;
+}
+
+.ResumeEditor :deep(h3) {
+  color: #152033;
+}
+
+.ResumeEditor :deep(.el-form-item__label) {
+  color: #64748b;
+}
+
+.ResumeEditor :deep(.el-input__wrapper),
+.ResumeEditor :deep(.el-select__wrapper) {
+  border-radius: 10px;
+  box-shadow: 0 0 0 1px #dbe4f0 inset;
+}
+
+.ResumeEditor :deep(.el-button--success),
+.ResumeEditor :deep(.el-button--primary) {
+  --el-button-bg-color: #2563eb;
+  --el-button-border-color: #2563eb;
+  --el-button-hover-bg-color: #1d4ed8;
+  --el-button-hover-border-color: #1d4ed8;
 }
 
 .ResumeEditor .EditBack {
   width: 100%;
-  height: calc(100vh - 60px);
-  overflow-y: scroll;
+  height: 100%;
+  overflow-y: auto;
 }
 
+.ResumeEditor .resume-settings-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 12px;
+  overflow: auto;
+}
+
+.ResumeEditor .settings-card,
+.ResumeEditor .skill-description-panel,
+.ResumeEditor .skill-settings-card {
+  min-width: 0;
+  padding: 14px;
+  background: #f8faff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+}
+
+.ResumeEditor .settings-card h3,
+.ResumeEditor .skill-settings-card h3 {
+  margin: 0 0 12px;
+  font-size: 15px;
+}
+
+.ResumeEditor :deep(.settings-card .el-form-item) {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-bottom: 12px;
+}
+
+.ResumeEditor :deep(.settings-card .el-form-item__label) {
+  justify-content: flex-start;
+  width: 100%;
+  padding: 0 0 4px;
+  line-height: 1.4;
+}
+
+.ResumeEditor :deep(.settings-card .el-input) {
+  width: 100% !important;
+}
+
+.ResumeEditor .base-info-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  align-content: start;
+  gap: 0 18px;
+  box-sizing: border-box;
+  padding: 14px 20px;
+}
+
+.ResumeEditor :deep(.base-info-form > h3) {
+  grid-column: 1 / -1;
+}
+
+.ResumeEditor :deep(.base-info-form > h3) {
+  margin: 0 0 10px;
+}
+
+.ResumeEditor :deep(.base-info-form .el-form-item) {
+  min-width: 0;
+  margin: 0 0 10px;
+}
+
+.ResumeEditor :deep(.base-info-form > div .el-button) {
+  width: 100% !important;
+}
+
+.ResumeEditor .skill-settings-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  gap: 10px;
+  box-sizing: border-box;
+  padding: 12px;
+  overflow: auto;
+}
+
+.ResumeEditor .skill-description-panel,
+.ResumeEditor .skill-settings-card {
+  box-sizing: border-box;
+  height: auto;
+  overflow: auto;
+}
+
+.ResumeEditor :deep(.skill-description-panel .md-editor),
+.ResumeEditor :deep(.module-editor-layout .md-editor) {
+  height: min(420px, calc(var(--editor-panel-height) - 112px)) !important;
+  border-radius: 10px;
+}
+
+.ResumeEditor .module-editor-layout {
+  box-sizing: border-box;
+  padding: 12px;
+}
+
+.ResumeEditor .module-editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.ResumeEditor .module-editor-header h3 {
+  margin: 0;
+}
+
+.ResumeEditor .module-editor-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ResumeEditor :deep(.module-editor-actions .el-switch__core) {
+  width: 34px !important;
+}
+
+.ResumeEditor .module-delete {
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.ResumeEditor .module-item-editor {
+  padding: 14px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.ResumeEditor .module-fields-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 4px 16px;
+}
+
+.ResumeEditor :deep(.module-fields-grid > div) {
+  min-width: 0;
+  margin-bottom: 8px !important;
+}
 
 .ResumeEditor .delete1 {
   cursor: pointer;
   text-align: center;
-  background: #b78080;
+  background: #eff6ff;
   border-radius: 20px;
   height: 32px;
   line-height: 32px;
@@ -950,13 +1161,13 @@ export default defineComponent({
 .ResumeEditor .delete2 {
   cursor: pointer;
   text-align: center;
-  background: #b78080;
+  background: #eff6ff;
   padding: 3px 6px 4px 6px;
   border-radius: 50%;
 }
 
 .ResumeEditor .font1 {
   font-size: 16px;
-  color: #606266;
+  color: #64748b;
 }
 </style>
